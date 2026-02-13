@@ -70,3 +70,104 @@ yesBtn.addEventListener("click", () => {
 
     finalText.style.display = "block";
 });
+
+
+// Photo Slideshow Configuration
+const photos = [
+    "IMG_1.jpg",  
+    "IMG_5027.jpg",
+    "IMG_4998.jpg",
+    "IMG_C.jpg",
+    "IMG_4314.jpg",
+    "IMG_5028.jpg",
+    "IMG_4310.jpg",
+    "IMG_1770.jpg",
+    "IMG_V.jpg",
+    "IMG_4305.jpg",
+    "IMG_4857.jpg",
+    "IMG_4300.jpg",
+    "IMG_B.jpg",
+    "IMG_4295.jpg",
+    "IMG_P.jpg",
+    "IMG_4291.jpg",
+    "IMG_1772.jpg",
+    "IMG_A.jpg",
+    "IMG.gif"
+  ];
+  
+  let idleTimer = null;
+  let slideshowInterval = null;
+  let currentPhotoIndex = 0;
+  const IDLE_TIME = 3000; // 3 seconds
+  const PHOTO_DURATION = 3000; // 3 seconds per photo
+  
+  const photoSlideshow = document.getElementById("photo-slideshow");
+  const slideshowImg = document.getElementById("slideshow-img");
+  const closeSlideshow = document.getElementById("close-slideshow");
+  
+  // Reset idle timer on mouse movement
+  function resetIdleTimer() {
+    // Clear existing timer
+    clearTimeout(idleTimer);
+    
+    // Stop slideshow if it's running
+    stopSlideshow();
+    
+    // Start new idle timer
+    idleTimer = setTimeout(startSlideshow, IDLE_TIME);
+  }
+  
+  // Start the slideshow
+  function startSlideshow() {
+    if (photos.length === 0) return;
+    
+    currentPhotoIndex = 0;
+    photoSlideshow.style.display = "flex";
+    showPhoto(currentPhotoIndex);
+    
+    // Change photo every 3 seconds
+    slideshowInterval = setInterval(() => {
+      currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
+      showPhoto(currentPhotoIndex);
+    }, PHOTO_DURATION);
+  }
+  
+  // Display a specific photo
+  function showPhoto(index) {
+    slideshowImg.style.animation = "none";
+    setTimeout(() => {
+      slideshowImg.src = photos[index];
+      slideshowImg.style.animation = "zoomIn 0.5s ease";
+    }, 10);
+  }
+  
+  // Stop the slideshow
+  function stopSlideshow() {
+    clearInterval(slideshowInterval);
+    photoSlideshow.style.display = "none";
+    slideshowInterval = null;
+  }
+  
+  // Event listeners for mouse movement
+  document.addEventListener("mousemove", resetIdleTimer);
+  document.addEventListener("mousedown", resetIdleTimer);
+  document.addEventListener("keypress", resetIdleTimer);
+  document.addEventListener("scroll", resetIdleTimer);
+  document.addEventListener("touchstart", resetIdleTimer);
+  
+  // Close button
+  closeSlideshow.addEventListener("click", () => {
+    stopSlideshow();
+    resetIdleTimer();
+  });
+  
+  // Close on Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && photoSlideshow.style.display === "flex") {
+      stopSlideshow();
+      resetIdleTimer();
+    }
+  });
+  
+  // Start the idle timer when page loads
+  resetIdleTimer();s
