@@ -74,7 +74,7 @@ yesBtn.addEventListener("click", () => {
 
 // Photo Slideshow Configuration
 const photos = [
-    "IMG_1.jpg",  
+    "IMG_1.JPG",  
     "IMG_5027.jpg",
     "IMG_4998.jpg",
     "IMG_C.jpg",
